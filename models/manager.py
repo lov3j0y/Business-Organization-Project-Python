@@ -31,3 +31,7 @@ class Manager(Employee):
             self.team.append(member)
         else:
             raise TypeError("Only Developers and Designers can be members of the team.")
+        
+    def print_team_members(self):
+        for member in self.team:
+            print(member)
