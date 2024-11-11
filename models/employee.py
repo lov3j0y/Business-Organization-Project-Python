@@ -14,9 +14,27 @@ class Employee:
         elif self.experience > 5:
             calculated_salary = calculated_salary * 1.2 + 500          
         
-        return int(calculated_salary)
+        return round(calculated_salary)
     
     
     def __str__(self):
         """ ToString  method overloaded to let you print information about salary of particular employee."""
         return f"{self.first_name} {self.last_name} received {self.salary_calculation()} money."
+    
+    def to_dict(self):
+        return {
+            "type": self.__class__.__name__,
+            "first_name": self.first_name,
+            "last_name": self.last_name,
+            "base_salary": self.base_salary,
+            "experience": self.experience
+        }
+        
+    @classmethod    
+    def from_dict(cls, data):
+        return cls(
+            data["first_name"],
+            data["last_name"],
+            data["base_salary"],
+            data["experience"]
+        )

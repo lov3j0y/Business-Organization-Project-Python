@@ -1,4 +1,6 @@
-from models import *
+from .employee import Employee
+from .developer import Developer
+from .designer import Designer
 
 class Manager(Employee):
     def __init__(self, first_name: str, last_name: str, base_salary: float, experience: int, team = None):
@@ -24,7 +26,7 @@ class Manager(Employee):
         
         if developer_count > team_size / 2:
             calculated_salary *= 1.1
-        return int(calculated_salary)
+        return round(calculated_salary)
     
     def add_team_members(self, member):
         if isinstance(member, (Developer, Designer)):
@@ -35,3 +37,31 @@ class Manager(Employee):
     def print_team_members(self):
         for member in self.team:
             print(member)
+            
+    def to_dict(self):
+        data = super().to_dict()
+        data["team"] = [member.to_dict() for member in self.team]
+        return data
+
+    @classmethod
+    def from_dict(cls, data):
+        manager = cls(
+            data["first_name"],
+            data["last_name"],
+            data["base_salary"],
+            data["experience"]
+        )
+        manager.team = [deserialize_employee(member_data) for member_data in data["team"]]
+        return manager
+
+
+def deserialize_employee(data):
+    """Helper function to create instances based on type."""
+    if data["type"] == "Developer":
+        return Developer.from_dict(data)
+    elif data["type"] == "Designer":
+        return Designer.from_dict(data)
+    elif data["type"] == "Manager":
+        return Manager.from_dict(data)
+    else:
+        raise ValueError(f"Unknown employee type: {data['type']}")

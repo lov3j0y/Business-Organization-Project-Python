@@ -1,8 +1,7 @@
+from .employee import Employee
+from .department import Department
+from .developer import Developer
+from .designer import Designer
+from .manager import Manager, deserialize_employee
 
-from models.employee import Employee
-from models.designer import Designer
-from models.developer import Developer
-from models.manager import Manager
-from models.department import Department
-
-__all__ = ['Employee', 'Designer', 'Developer', 'Manager', 'Department']
+__all__ = ["Employee", "Department", "Developer", "Designer", "Manager", "deserialize_employee"]

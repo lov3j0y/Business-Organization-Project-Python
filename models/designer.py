@@ -1,4 +1,4 @@
-from models import *
+from .employee import Employee
 
 class Designer(Employee):
     def __init__(self, first_name: str, last_name: str, base_salary: float, experience: int, eff_coeff: float):
@@ -11,4 +11,20 @@ class Designer(Employee):
     def salary_calculation(self) -> int:
         calculated_salary = super().salary_calculation()
         calculated_salary *= self.eff_coeff
-        return int(calculated_salary)
+        return round(calculated_salary)
+    
+    def to_dict(self):
+        data = super().to_dict()
+        data["eff_coeff"] = self.eff_coeff
+        data["type"] = "Designer"
+        return data
+    
+    @classmethod
+    def from_dict(cls, data):
+        return cls(
+            data["first_name"],
+            data["last_name"],
+            data["base_salary"],
+            data["experience"],
+            data["eff_coeff"]
+        )

@@ -1,5 +1,6 @@
-from models import *
+from .manager import Manager, deserialize_employee
 from tabulate import tabulate
+import json
 
 class Department:
     def __init__(self, name = None):
@@ -22,6 +23,7 @@ class Department:
         manager.print_team_members()
             
     def print_department_teams(self):
+        """Extra function to print all managers with their teams and information about them in a table."""
         print("\n" + "=" * 50 + "\n")
         
         print(f"Department: {self.name}")
@@ -44,3 +46,20 @@ class Department:
             print(tabulate(team_data, headers=headers, tablefmt="pretty"))
             print("\n" + "=" * 50 + "\n")
             
+    def save_employees(self, filename):
+        """Serializes the list of managers (and their teams) to a JSON file."""
+        with open(filename, "w") as file:
+            json.dump([manager.to_dict() for manager in self.managers], file, indent = 4)
+        print(f"Data saved to {filename}.")
+        
+    def load_employees(self, filename="data/employees.json"):
+        """Deserializes the JSON file to restore the list of managers and their teams."""
+        try:
+            with open(filename, 'r') as file:
+                data_list = json.load(file)
+                self.managers = [deserialize_employee(data) for data in data_list]
+        except FileNotFoundError:
+            print(f"Error: File {filename} not found.")
+        except json.JSONDecodeError as e:
+            print(f"Error decoding JSON from file {filename}: {e}")
+                    
