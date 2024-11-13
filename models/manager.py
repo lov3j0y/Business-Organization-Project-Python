@@ -34,6 +34,9 @@ class Manager(Employee):
         else:
             raise TypeError("Only Developers and Designers can be members of the team.")
         
+        
+        #TO DO: remove_team_members()
+        
     def print_team_members(self):
         for member in self.team:
             print(member)

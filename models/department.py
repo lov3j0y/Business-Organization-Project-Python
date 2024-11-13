@@ -15,7 +15,9 @@ class Department:
         if isinstance(manager, Manager):
             self.managers.append(manager)
         else:
-            raise TypeError("Only employees of type Managers can be added to the department.")
+            raise TypeError("Only employees of type Manager can be added to the department.")
+        
+    # TO DO: remove_manager()
     
     def give_salary(self):
         for manager in self.managers:

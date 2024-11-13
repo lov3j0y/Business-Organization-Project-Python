@@ -1,20 +1,25 @@
 class Employee:
     def __init__(self, first_name: str, last_name: str, base_salary: float, experience: int):
-        if not first_name.isalpha():
-            raise ValueError("First name must contains alphabetic characters only.")
-        self.first_name = first_name
-        if not last_name.isalpha():
-            raise ValueError("Last name must contains alphabetic characters only.")
-        self.last_name = last_name
-        if not isinstance(base_salary, (int, float)):
+        if not isinstance(first_name, str):
+            raise TypeError("First name must be a string.")
+        if not isinstance(last_name, str):
+            raise TypeError("Last name must be a string.")
+        if not isinstance(base_salary, int, float):
             raise TypeError("Base salary must be a number.")
-        if base_salary <= 0:
-            raise ValueError("Base salary must be bigger than zero.")
-        self.base_salary = base_salary
         if not isinstance(experience, int):
-            raise TypeError("Experience must be an integer.")
+            raise TypeError("Experience must be an integer.")    
+        if not first_name or not last_name:
+            raise ValueError("First name and last name must not be empty.")
+        if not first_name.isalpha() or not last_name.isalpha():
+            raise ValueError("Names must contain only alphabetic characters.")
+        if base_salary <= 0:
+            raise ValueError("Base salary must be greater than zero.")
         if experience < 0:
-            raise ValueError("Experience must be a positive number.")
+            raise ValueError("Experience must not be negative.")
+                
+        self.first_name = first_name
+        self.last_name = last_name
+        self.base_salary = base_salary
         self.experience = experience
               
     

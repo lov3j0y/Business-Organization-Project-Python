@@ -1,32 +1,14 @@
 from models import *
 
-employee = Employee("Emil", "Vilhelm", 1500, 5)
+if __name__ == "__main__":
+    # Example setup for production run
+    dev = Developer("Ivaylo", "Ivanov", 60000, 3)
+    des = Designer("Martin", "Petkov", 65000, 5, eff_coeff=1)
+    mgr = Manager("Rumen", "Radev", 90000, 10, team=[dev, des])
 
-designer = Designer("Gabriela", "Georgieva", 1500, 5, 1)
-developer = Developer("Ivaylo", "Ivanov", 1500, 1)
-developer2 = Developer("Ivaylo", "Ivanov", 1500, 3)
-developer3 = Developer("Ivaylo", "Ivanov", 1500, 5)
-developer4 = Developer("Ivaylo", "Ivanov", 1500, 7)
+    # Add manager to department
+    dept = Department()
+    dept.add_manager(mgr)
 
-
-manager1 = Manager("Martin", "Petkov", 2000, 10)
-manager1.add_team_members(developer)
-manager1.add_team_members(developer2)
-manager1.add_team_members(developer3)
-manager1.add_team_members(developer4)
-manager1.add_team_members(designer)
-
-
-department = Department()
-department.add_manager(manager1)
-
-
-department.print_department_teams()
-department.give_salary()
-
-department.save_employees("data/employees.json")
-
-new_department = Department()
-new_department.load_employees("data/employees.json")
-for manager in new_department.managers:
-    print(manager.to_dict())
+    # Save department to JSON
+    dept.save_employees("data/employees.json")
