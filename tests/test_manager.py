@@ -19,7 +19,6 @@ class TestManagerInitialization:
         ]
         manager = Manager("Manager", "Managerov", 1500, 10, team)
         
-        # Check if the team is set correctly
         assert manager.team == team
         assert len(manager.team) == 2
         assert isinstance(manager.team[0], Developer)

@@ -1,5 +1,4 @@
 import pytest
-import coverage
 from models import *
 
 @pytest.mark.employee_initialization_tests
