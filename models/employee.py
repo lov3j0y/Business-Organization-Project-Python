@@ -4,7 +4,7 @@ class Employee:
             raise TypeError("First name must be a string.")
         if not isinstance(last_name, str):
             raise TypeError("Last name must be a string.")
-        if not isinstance(base_salary, int, float):
+        if not isinstance(base_salary, (int, float)):
             raise TypeError("Base salary must be a number.")
         if not isinstance(experience, int):
             raise TypeError("Experience must be an integer.")    

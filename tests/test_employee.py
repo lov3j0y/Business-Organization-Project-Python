@@ -33,11 +33,34 @@ class TestEmployeeInitialization:
 class TestSalaryCalculation:
     @pytest.mark.parametrize("base_salary, experience, expected", [
         (1000, 0, 1000),
-        (1500, 1, 1500),
-        (2000, 2, 2200)
+        (1500, 1, 1500)
     ])
-    def test_salary_calculation_experience_two_or_less(self, base_salary, experience, expected):
+    def test_salary_calculation_experience_less_than_two_years(self, base_salary, experience, expected):
         employee = Employee("John", "Doe", base_salary, experience)
-
-        assert employee.salary_calculation() == expected, "Calculated salary is not as expected."
+        calculated_salary = employee.salary_calculation()
+        assert calculated_salary == expected, "Calculated salary is not as expected."
+        
+        
+    @pytest.mark.parametrize("base_salary, experience, expected", [
+        (1000, 2, 1200),
+        (1000, 5, 1200),
+        (1500, 2, 1700),
+        (1500, 5, 1700),
+    ])
+    def test_salary_calculation_experience_two_to_five_years(self, base_salary, experience, expected):
+        employee = Employee("John", "Doe", base_salary, experience)
+        calculated_salary = employee.salary_calculation()
+        assert calculated_salary == expected, "Calculated salary is not as expected."
+        
+        
+    @pytest.mark.parametrize("base_salary, experience, expected", [
+        (1000, 6, 1700),
+        (1000, 10, 1700),
+        (1500, 6, 2300),
+        (1500, 10, 2300)
+    ])
+    def test_salary_calculation_experience_two_to_five_years(self, base_salary, experience, expected):
+        employee = Employee("John", "Doe", base_salary, experience)
+        calculated_salary = employee.salary_calculation()
+        assert calculated_salary == expected, "Calculated salary is not as expected."
     
