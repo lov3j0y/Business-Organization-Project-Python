@@ -1,5 +1,6 @@
 from .employee import Employee
 
+# Please refactor the Employee class based on the suggestion: validate all inputs before assigning any values to instance variables
 class Designer(Employee):
     def __init__(self, first_name: str, last_name: str, base_salary: float, experience: int, eff_coeff: float):
         super().__init__(first_name, last_name, base_salary, experience)
@@ -10,10 +11,11 @@ class Designer(Employee):
         self.eff_coeff = eff_coeff
         
         
-    def salary_calculation(self) -> int:
+    def salary_calculation(self) -> float:
         calculated_salary = super().salary_calculation()
-        calculated_salary *= self.eff_coeff
-        return round(calculated_salary)
+        # the requirement counted_salary * eff_coeff is incorrect, it should be: counted_salary + counted_salary * eff_coeff
+        designer_bonus = calculated_salary * self.eff_coeff
+        return round(calculated_salary + designer_bonus, 2)
     
     def to_dict(self):
         data = super().to_dict()

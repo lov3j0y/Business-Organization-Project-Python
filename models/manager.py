@@ -14,7 +14,7 @@ class Manager(Employee):
     def salary_calculation(self) -> int:
         calculated_salary = super().salary_calculation()
         team_size = len(self.team)
-        
+
         if team_size > 10:
             calculated_salary += 300
         elif team_size > 5:
@@ -29,6 +29,7 @@ class Manager(Employee):
         return round(calculated_salary)
     
     def add_team_members(self, member):
+        #You should check if a Developer or Designer with the given first_name and last_name already exists in the team
         if isinstance(member, (Developer, Designer)):
             self.team.append(member)
         else:
@@ -36,6 +37,7 @@ class Manager(Employee):
         
         
         #TO DO: remove_team_members()
+    #  Don't forget to either remove TODOs that are no longer relevant or implement them before pushing to github
         
     def print_team_members(self):
         for member in self.team:
@@ -58,13 +60,20 @@ class Manager(Employee):
         return manager
 
 
-def deserialize_employee(data):
+EMPLOYEE_TYPES = {
+    "Developer": Developer,
+    "Designer": Designer,
+    "Manager": Manager
+}
+
+# This code will be more maintainable if we use a dictionary mapping instead of multiple if-elif statements.
+# Adding new employee types will only require updating the dictionary, not modifying the function logic.
+def deserialize_employee(data: dict) -> Employee:
     """Helper function to create instances based on type."""
-    if data["type"] == "Developer":
-        return Developer.from_dict(data)
-    elif data["type"] == "Designer":
-        return Designer.from_dict(data)
-    elif data["type"] == "Manager":
-        return Manager.from_dict(data)
-    else:
-        raise ValueError(f"Unknown employee type: {data['type']}")
+    employee_type = data["type"]
+    employee_class = EMPLOYEE_TYPES.get(employee_type)
+
+    if employee_class is None:
+        raise ValueError(f"Unknown employee type: {employee_type}")
+
+    return employee_class.from_dict(data)

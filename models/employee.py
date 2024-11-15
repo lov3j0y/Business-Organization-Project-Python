@@ -1,22 +1,44 @@
 class Employee:
+
+    # It would be better validate all inputs before assigning any values to instance variables
+    @staticmethod
+    def _validate_string_field(value: str, field_name: str) -> None:
+        if not isinstance(value, str):
+            raise TypeError(f"{field_name} must be a string.")
+        if not value:
+            raise ValueError(f"{field_name} must not be empty.")
+        if not value.isalpha():
+            raise ValueError(f"{field_name} must contain only alphabetic characters.")
+
+    @staticmethod
+    def _validate_numeric_field(value: float | int, field_name: str, min_value: float = 0,
+                                integer_only: bool = False) -> None:
+        if integer_only and not isinstance(value, int):
+            raise TypeError(f"{field_name} must be an integer.")
+        elif not integer_only and not isinstance(value, (int, float)):
+            raise TypeError(f"{field_name} must be a number.")
+        if value < min_value:
+            raise ValueError(f"{field_name} must be greater than or equal to {min_value}.")
+
     def __init__(self, first_name: str, last_name: str, base_salary: float, experience: int):
-        if not isinstance(first_name, str):
-            raise TypeError("First name must be a string.")
-        if not isinstance(last_name, str):
-            raise TypeError("Last name must be a string.")
-        if not isinstance(base_salary, (int, float)):
-            raise TypeError("Base salary must be a number.")
-        if not isinstance(experience, int):
-            raise TypeError("Experience must be an integer.")    
-        if not first_name or not last_name:
-            raise ValueError("First name and last name must not be empty.")
-        if not first_name.isalpha() or not last_name.isalpha():
-            raise ValueError("Names must contain only alphabetic characters.")
-        if base_salary <= 0:
-            raise ValueError("Base salary must be greater than zero.")
-        if experience < 0:
-            raise ValueError("Experience must not be negative.")
-                
+        """
+        Initialize an Employee instance.
+
+        Args:
+            first_name (str): Employee's first name
+            last_name (str): Employee's last name
+            base_salary (float): Base salary amount
+            experience (int): Years of experience
+
+        Raises:
+            TypeError: If any argument is of incorrect type
+            ValueError: If any argument contains invalid data
+        """
+        self._validate_string_field(first_name, "First name")
+        self._validate_string_field(last_name, "Last name")
+        self._validate_numeric_field(base_salary, "Base salary", min_value=0.1)
+        self._validate_numeric_field(experience, "Experience", integer_only=True)
+
         self.first_name = first_name
         self.last_name = last_name
         self.base_salary = base_salary
